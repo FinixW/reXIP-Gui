@@ -1,0 +1,184 @@
+<Window x:Class="ReXipGui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="reXIP GUI" Height="760" Width="980"
+        MinHeight="600" MinWidth="800">
+
+    <!-- All user-visible text is assigned from Loc.cs in MainWindow.ApplyLanguage(). -->
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,4" />
+            <Setter Property="Margin" Value="4" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="260" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="170" />
+        </Grid.RowDefinitions>
+
+        <!-- Global settings -->
+        <GroupBox x:Name="GrpSettings" Grid.Row="0" Padding="4">
+            <StackPanel>
+                <DockPanel>
+                    <Button x:Name="BtnExe" DockPanel.Dock="Right" Click="BtnExe_Click" />
+                    <TextBlock x:Name="LblExe" DockPanel.Dock="Left" Width="240" Margin="4,0" TextTrimming="CharacterEllipsis" />
+                    <TextBox x:Name="TxtExe" />
+                </DockPanel>
+                <DockPanel>
+                    <Button x:Name="BtnWork" DockPanel.Dock="Right" Click="BtnWork_Click" />
+                    <TextBlock x:Name="LblWork" DockPanel.Dock="Left" Width="240" Margin="4,0" TextTrimming="CharacterEllipsis" />
+                    <TextBox x:Name="TxtWork" />
+                </DockPanel>
+                <DockPanel>
+                    <Button x:Name="BtnGame" DockPanel.Dock="Right" Click="BtnGame_Click" />
+                    <TextBlock x:Name="LblGame" DockPanel.Dock="Left" Width="240" Margin="4,0" TextTrimming="CharacterEllipsis" />
+                    <TextBox x:Name="TxtGame" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock x:Name="LblLang" DockPanel.Dock="Left" Width="240" Margin="4,0" />
+                    <ComboBox x:Name="CmbLang" HorizontalAlignment="Left" Width="160">
+                        <ComboBoxItem Content="English" Tag="en" />
+                        <ComboBoxItem Content="简体中文" Tag="zh-CN" />
+                    </ComboBox>
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <TabControl x:Name="MainTabs" Grid.Row="1" Margin="0,8,0,0">
+
+            <!-- 1. Keys -->
+            <TabItem x:Name="TabKeys">
+                <StackPanel Margin="12">
+                    <TextBlock x:Name="TxtKeysIntro" TextWrapping="Wrap" Margin="4,0,4,8" />
+                    <DockPanel>
+                        <Button x:Name="BtnRefreshProc" DockPanel.Dock="Right" Click="BtnRefreshProc_Click" />
+                        <TextBlock x:Name="LblProc" DockPanel.Dock="Left" Width="70" Margin="4,0" />
+                        <ComboBox x:Name="CmbProc" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Button x:Name="BtnKeys" Padding="20,8" Click="BtnKeys_Click" />
+                        <Button x:Name="BtnUseKeys" Padding="20,8" Click="BtnUseKeys_Click" />
+                    </StackPanel>
+                    <TextBlock x:Name="TxtKeyStatus" Margin="4,8" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- 2. Browse / extract -->
+            <TabItem x:Name="TabBrowse">
+                <DockPanel Margin="12">
+                    <DockPanel DockPanel.Dock="Top">
+                        <Button x:Name="BtnPakRefresh" DockPanel.Dock="Right" Click="BtnPakRefresh_Click" />
+                        <Button x:Name="BtnPakBrowse" DockPanel.Dock="Right" Click="BtnPakBrowse_Click" />
+                        <TextBlock x:Name="LblPak" DockPanel.Dock="Left" Width="70" Margin="4,0" />
+                        <ComboBox x:Name="CmbPak" IsEditable="True" />
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Button x:Name="BtnVerify" DockPanel.Dock="Right" Click="BtnVerify_Click" />
+                        <Button x:Name="BtnList" DockPanel.Dock="Right" Click="BtnList_Click" />
+                        <TextBlock x:Name="LblFilter" DockPanel.Dock="Left" Width="70" Margin="4,0" />
+                        <TextBox x:Name="TxtFilter" />
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Bottom">
+                        <Button x:Name="BtnExtractAll" DockPanel.Dock="Right" Click="BtnExtractAll_Click" />
+                        <Button x:Name="BtnExtractSel" DockPanel.Dock="Right" Click="BtnExtractSel_Click" />
+                        <Button x:Name="BtnExtractDir" DockPanel.Dock="Right" Click="BtnExtractDir_Click" />
+                        <TextBlock x:Name="LblOutTo" DockPanel.Dock="Left" Width="70" Margin="4,0" />
+                        <TextBox x:Name="TxtExtractDir" />
+                    </DockPanel>
+                    <ListBox x:Name="LstEntries" SelectionMode="Extended" Margin="4"
+                             FontFamily="Consolas" />
+                </DockPanel>
+            </TabItem>
+
+            <!-- 3. Build patch -->
+            <TabItem x:Name="TabPack">
+                <StackPanel Margin="12">
+                    <TextBlock x:Name="TxtPackIntro" TextWrapping="Wrap" Margin="4,0,4,8" />
+                    <DockPanel>
+                        <Button x:Name="BtnPatchDir" DockPanel.Dock="Right" Click="BtnPatchDir_Click" />
+                        <TextBlock x:Name="LblPatchDir" DockPanel.Dock="Left" Width="130" Margin="4,0" />
+                        <TextBox x:Name="TxtPatchDir" />
+                    </DockPanel>
+
+                    <GroupBox x:Name="GrpMap" Margin="4,8,4,4" Padding="4">
+                        <StackPanel>
+                            <DockPanel>
+                                <Button x:Name="BtnAddMap" DockPanel.Dock="Right" Click="BtnAddMap_Click" />
+                                <Button x:Name="BtnLocal" DockPanel.Dock="Right" Click="BtnLocal_Click" />
+                                <TextBlock x:Name="LblInner" DockPanel.Dock="Left" Width="110" Margin="4,0" />
+                                <TextBox x:Name="TxtInner" Width="260" DockPanel.Dock="Left" />
+                                <TextBlock DockPanel.Dock="Left" Margin="4,0" Text="=" />
+                                <TextBox x:Name="TxtLocal" />
+                            </DockPanel>
+                            <DockPanel>
+                                <Button x:Name="BtnDelMap" DockPanel.Dock="Right" VerticalAlignment="Top" Click="BtnDelMap_Click" />
+                                <ListBox x:Name="LstMaps" Height="80" Margin="4" />
+                            </DockPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <DockPanel>
+                        <Button x:Name="BtnAutoName" DockPanel.Dock="Right" Click="BtnAutoName_Click" />
+                        <TextBlock x:Name="LblOutName" DockPanel.Dock="Left" Width="130" Margin="4,0" />
+                        <TextBox x:Name="TxtOutName" Text="system_0001.pak" />
+                    </DockPanel>
+                    <TextBlock x:Name="TxtNameHint" Margin="4,0,4,4" Foreground="Gray" TextWrapping="Wrap" />
+
+                    <CheckBox x:Name="ChkInstall" Margin="4,8" IsChecked="True" />
+                    <Button x:Name="BtnCreate" HorizontalAlignment="Left" Margin="4" Padding="24,8"
+                            Click="BtnCreate_Click" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- 4. CRC -->
+            <TabItem x:Name="TabCrc">
+                <StackPanel Margin="12">
+                    <TextBlock x:Name="TxtCrcWarn" TextWrapping="Wrap" Margin="4,0,4,8" Foreground="Firebrick" />
+                    <DockPanel>
+                        <Button x:Name="BtnCrcIn" DockPanel.Dock="Right" Click="BtnCrcIn_Click" />
+                        <TextBlock x:Name="LblCrcIn" DockPanel.Dock="Left" Width="130" Margin="4,0" />
+                        <TextBox x:Name="TxtCrcIn" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock x:Name="LblCrcOut" DockPanel.Dock="Left" Width="130" Margin="4,0" />
+                        <TextBox x:Name="TxtCrcOut" Text="crc_new.pak" />
+                    </DockPanel>
+                    <Button x:Name="BtnCrc" HorizontalAlignment="Left" Margin="4,8" Padding="24,8"
+                            Click="BtnCrc_Click" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="LightGray" />
+
+        <!-- Log -->
+        <DockPanel Grid.Row="3">
+            <DockPanel DockPanel.Dock="Top">
+                <Button x:Name="BtnClearLog" DockPanel.Dock="Right" Click="BtnClearLog_Click" />
+                <Button x:Name="BtnCancel" DockPanel.Dock="Right" IsEnabled="False" Click="BtnCancel_Click" />
+                <TextBlock x:Name="LblLog" Margin="4,0" FontWeight="Bold" />
+            </DockPanel>
+            <TextBox x:Name="TxtLog" IsReadOnly="True" FontFamily="Consolas" Margin="4"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="NoWrap" VerticalContentAlignment="Top" />
+        </DockPanel>
+    </Grid>
+</Window>
