@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+publish/
+*.exe
+*.dll
+*.pdb
+
+# IDE / user files
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Never commit game data or extracted keys
+keyFiles/
+dump.bin
+*.pak
+*.crc
+backup/
+build/
